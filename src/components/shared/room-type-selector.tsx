@@ -8,9 +8,13 @@ interface Props {
   };
 }
 
-export default function RoomTypeSelector({ handleRoomInputChange, newRoom }: Props) {
+export default function RoomTypeSelector({
+  handleRoomInputChange,
+  newRoom,
+}: Props) {
   const [roomTypes, setRoomTypes] = useState<string[]>([]);
-  const [showNewRoomTypeInput, setShowNewRoomTypeInput] = useState<boolean>(false);
+  const [showNewRoomTypeInput, setShowNewRoomTypeInput] =
+    useState<boolean>(false);
   const [newRoomType, setNewRoomType] = useState<string>("");
 
   useEffect(() => {
@@ -32,8 +36,13 @@ export default function RoomTypeSelector({ handleRoomInputChange, newRoom }: Pro
   return (
     <>
       {roomTypes.length > 0 && (
-        <div>
-          <label htmlFor="roomType">Room Type:</label>
+        <div className="flex flex-col">
+          <label
+            htmlFor="roomType"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Room Type:
+          </label>
           <select
             id="roomType"
             name="roomType"
