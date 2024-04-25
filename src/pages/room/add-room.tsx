@@ -68,9 +68,12 @@ export default function AddRoom() {
   return (
     <>
       <Heading title="Add Room" />
-      <section className="flex justify-center gap-10 bg-white text-black p-10 h-auto">
-        <div className="z-50">
-          <form onSubmit={handleSubmit}>
+      <section className="flex justify-evenly gap-10 bg-white text-black p-10 h-auto">
+        <div className="w-1/3">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 items-start"
+          >
             <div className="col-span-full">
               <label
                 htmlFor="cover-photo"
@@ -78,7 +81,7 @@ export default function AddRoom() {
               >
                 Room Photo
               </label>
-              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+              <div className="w-96 mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 <div className="text-center">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-300"
@@ -87,9 +90,9 @@ export default function AddRoom() {
                     aria-hidden="true"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                   <div className="mt-4 flex text-sm leading-6 text-gray-600">
@@ -97,7 +100,7 @@ export default function AddRoom() {
                       htmlFor="file-upload"
                       className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                     >
-                      <span>Upload a file</span>
+                      <span>Upload a {imagePreview && "new"} file</span>
                       <input
                         id="file-upload"
                         name="file-upload"
@@ -116,18 +119,23 @@ export default function AddRoom() {
               </div>
             </div>
             <div>
-              <label htmlFor="roomType">Room Type:</label>
               <RoomTypeSelector
                 handleRoomInputChange={handleRoomInputChange}
                 newRoom={newRoom}
               />
             </div>
-            <div>
-              <label htmlFor="roomPrice">Room Price:</label>
+            <div className="flex flex-col">
+              <label
+                htmlFor="roomPrice"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Room Price:
+              </label>
               <input
                 type="number"
                 id="roomPrice"
                 name="roomPrice"
+                className="border border-gray-900/25 rounded-md"
                 value={newRoom.roomPrice}
                 onChange={handleRoomInputChange}
               />
@@ -138,13 +146,24 @@ export default function AddRoom() {
           {errorMessage && <p>{errorMessage}</p>}
         </div>
 
-        {imagePreview && (
-          <img
-            src={imagePreview}
-            alt="Room Preview"
-            style={{ maxWidth: "400px" }}
-          />
-        )}
+        <div className="w-1/3 h-80">
+          <p className="text-sm font-medium leading-6 text-gray-900">
+            Selected photo
+          </p>
+          {imagePreview ? (
+            <img
+              src={imagePreview}
+              alt="Room Preview"
+              className="size-full object-cover rounded-lg mt-2"
+            />
+          ) : (
+            <div className="h-full mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+              <div className="text-center flex items-center text-sm leading-6 text-gray-600">
+                <span>Select a photo to see its preview.</span>
+              </div>
+            </div>
+          )}
+        </div>
       </section>
     </>
   );
