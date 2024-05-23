@@ -1,8 +1,18 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { getRoomTypes } from "../../service/room-api";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface Props {
-  handleRoomInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleRoomInputChange: (value: string) => void;
   newRoom: {
     roomType: string;
   };
@@ -37,36 +47,41 @@ export default function RoomTypeSelector({
     <>
       {roomTypes.length > 0 && (
         <div className="flex flex-col">
-          <label
-            htmlFor="roomType"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
+          <Label className="block text-sm font-medium leading-6 text-gray-900">
             Room Type:
-          </label>
-          <select
-            id="roomType"
-            name="roomType"
+          </Label>
+          <Select
             value={newRoom.roomType}
-            onChange={(e) => {
-              if (e.target.value === "Add New") {
+            onValueChange={(value) => {
+              if (value === "Add New") {
                 setShowNewRoomTypeInput(true);
               } else {
-                handleRoomInputChange;
+                handleRoomInputChange(value);
               }
             }}
           >
-            <option value="">Select a Room Type</option>
-            <option value="Add New">Add New</option>
-            {roomTypes.map((roomType) => (
-              <option key={roomType} value={roomType}>
-                {roomType}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Room Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Add New">Add New</SelectItem>
+              {roomTypes.map((roomType) => (
+                <SelectItem key={roomType} value={roomType}>
+                  {roomType}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          
           {showNewRoomTypeInput && (
-            <div>
-              <label htmlFor="newRoomType">New Room Type:</label>
-              <input
+            <div className="flex flex-col">
+              <Label
+                htmlFor="newRoomType"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                New Room Type:
+              </Label>
+              <Input
                 type="text"
                 id="newRoomType"
                 name="newRoomType"
@@ -74,7 +89,21 @@ export default function RoomTypeSelector({
                 onChange={handleNewRoomTypeChange}
                 placeholder="Enter new room type"
               />
-              <button onClick={handleAddNewRoomType}>Add Room Type</button>
+              <div className="mt-2 flex justify-between text-white">
+                <Button
+                  onClick={handleAddNewRoomType}
+                  className="rounded bg-red-500 px-4 pt-1"
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  onClick={handleAddNewRoomType}
+                  className="rounded bg-green-500 px-4 pt-1"
+                >
+                  Add
+                </Button>
+              </div>
             </div>
           )}
         </div>
